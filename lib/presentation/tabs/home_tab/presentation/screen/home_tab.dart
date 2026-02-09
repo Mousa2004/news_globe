@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:news_globe/data/model/home_details_model.dart';
 import 'package:news_globe/presentation/tabs/home_tab/presentation/widget/customed_icon_bottom.dart';
 import 'package:news_globe/presentation/tabs/home_tab/presentation/widget/customed_news_slider_show.dart';
 import 'package:news_globe/presentation/tabs/home_tab/presentation/widget/customed_recommendation_list.dart';
 import 'package:news_globe/presentation/tabs/home_tab/presentation/widget/customed_title.dart';
 import 'package:news_globe/utils/app_assets.dart';
+import 'package:news_globe/utils/app_routes.dart';
 
 class HomeTab extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -12,13 +14,21 @@ class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List images = [
+      AppAssets.generalImg,
       AppAssets.onboardingOne,
       AppAssets.onboardingTwo,
       AppAssets.onboardingThree,
+      AppAssets.generalImg,
       AppAssets.onboardingOne,
       AppAssets.onboardingTwo,
       AppAssets.onboardingThree,
     ];
+    String title =
+        "flutter pub outdated` for more \n"
+        "flutter pub outdated` for more \n"
+        "flutter pub outdated` for more ";
+    String subTitle = "flutter pub outdated` for";
+
     var height = MediaQuery.sizeOf(context).height;
     var width = MediaQuery.sizeOf(context).width;
     return SafeArea(
@@ -55,7 +65,23 @@ class HomeTab extends StatelessWidget {
                     SizedBox(height: height * 0.02),
                 itemCount: images.length,
                 itemBuilder: (context, index) {
-                  return CustomedRecommendationList(imageName: images[index]);
+                  return CustomedRecommendationList(
+                    homeDetailsModel: HomeDetailsModel(
+                      title: title,
+                      subTitle: subTitle,
+                      imageName: images[index],
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        AppRoutes.homeTabDetails,
+                        arguments: HomeDetailsModel(
+                          imageName: images[index],
+                          title: title,
+                          subTitle: subTitle,
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
             ),
