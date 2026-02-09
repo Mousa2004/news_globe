@@ -14,8 +14,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   NotchBottomBarController controller = NotchBottomBarController();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int selectIndex = 0;
-  List<Widget> tabs = [HomeTab(), CategoriesTab(), ProfileTab()];
+  List<Widget> get tabs => [
+    HomeTab(scaffoldKey: scaffoldKey),
+    CategoriesTab(),
+    ProfileTab(),
+  ];
   @override
   void dispose() {
     controller.dispose();
@@ -26,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var width = MediaQuery.sizeOf(context).width;
     return Scaffold(
+      key: scaffoldKey,
+      drawer: Drawer(width: width * 0.6),
       bottomNavigationBar: SafeArea(
         child: AnimatedNotchBottomBar(
           showLabel: true,
@@ -59,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
           onTap: (int index) {
             selectIndex = index;
+            setState(() {});
           },
         ),
       ),
